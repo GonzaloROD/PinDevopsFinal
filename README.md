@@ -21,4 +21,4 @@ Pasos para probar el Pipiline
 
 10.Con esto tendras en dahsboard que monitorea los contenedores
     
-12. para aplicar el terraform destroy se hace de manera manuel debes ir action y seleccionar el yaml destroy.
+12. Para aplicar el terraform destroy se hace de manera manuel debes ir action y seleccionar el yaml destroy.
