@@ -31,5 +31,5 @@ jobs:
       run: terraform plan -destroy -out=tfplan
 
     - name: Terraform Apply (Destroy)
-      if: ${{ github.event.inputs.confirm_destroy == 'yes' }} # Condicional para evitar ejecuciones accidentales
+      #if: ${{ github.event.inputs.confirm_destroy == 'yes' }} # Condicional para evitar ejecuciones accidentales
       run: terraform apply -auto-approve tfplan
