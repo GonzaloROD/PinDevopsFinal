@@ -26,6 +26,5 @@ https://grafana.com/grafana/dashboards/893-main/
 9- Visualización de contenedores
 Ahora tendrás un dashboard que te permitirá monitorear los contenedores en ejecución.
 
-
-10- Aplicar Terraform Destroy (manual)
+10- Aplicar Terraform Destroy
 Para destruir los recursos desplegados, realiza la acción de terraform destroy. Esto se hace manualmente desde el flujo de trabajo seleccionando el archivo YAML correspondiente (action) con el nombre destroy. 
