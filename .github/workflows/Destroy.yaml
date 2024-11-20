@@ -1,35 +1,44 @@
-name: Terraform Destroy Workflow
+name: Terraform Destroy for AWS
 
 on:
-  workflow_dispatch: # Permite iniciar manualmente el workflow desde la UI de GitHub
+  workflow_dispatch: # Este evento permite ejecutar el workflow manualmente.
 
 jobs:
   terraform-destroy:
-    name: Terraform Destroy
+    name: Terraform Destroy on AWS
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v3
+      # Checkout del código fuente
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.5.0 # Cambia según la versión que utilices
+      # Configurar Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.8.4
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      # Configurar las credenciales de AWS usando los secretos
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: Initialize Terraform
-      run: terraform init
+      # Inicializar Terraform
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Terraform Plan (Destroy)
-      run: terraform plan -destroy -out=tfplan
+      # Validar el estado de Terraform
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Terraform Apply (Destroy)
-      if: ${{ github.event.inputs.confirm_destroy == 'yes' }} # Condicional para evitar ejecuciones accidentales
-      run: terraform apply -auto-approve tfplan
+      # Generar un plan de Terraform Destroy (opcional)
+      - name: Terraform Plan Destroy
+        run: terraform plan -destroy -out=tfplan-destroy
+
+      # Ejecutar Terraform Destroy
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
